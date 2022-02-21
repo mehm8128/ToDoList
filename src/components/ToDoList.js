@@ -35,15 +35,23 @@ function ToDoList() {
 		axios.get("http://localhost:8000/api/tasks").then((res) => {
 			for (let i = 0; i < res.data.length; i++) {
 				if (res.data[i].finished) {
-					setCompletedTodos({
-						id: completedTodos.concat([res.data[i].id]),
-						name: completedTodos.concat([res.data[i].name]),
-					})
+					setCompletedTodos(
+						completedTodos.concat([
+							{
+								id: res.data[i].id,
+								name: res.data[i].name,
+							},
+						])
+					)
 				} else {
-					setTodos({
-						id: todos.concat([res.data[i].id]),
-						name: todos.concat([res.data[i].name]),
-					})
+					setTodos(
+						todos.concat([
+							{
+								id: res.data[i].id,
+								name: res.data[i].name,
+							},
+						])
+					)
 				}
 			}
 		})
