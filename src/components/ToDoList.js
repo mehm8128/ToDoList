@@ -4,7 +4,7 @@ import "./ToDoList.css"
 
 function ToDoList() {
 	const [completedTodos, setCompletedTodos] = useState([])
-	const [todos, setTodos] = useState([])
+	const [todos, setTodos] = useState(["aaa"])
 	const [todo, setTodo] = useState("")
 
 	function handlePush() {
@@ -33,26 +33,26 @@ function ToDoList() {
 	}
 	function handleGetTodos() {
 		axios.get("http://localhost:8000/api/tasks").then((res) => {
+			let tmpCompletedTodos = []
+			let tmpTodos = []
 			for (let i = 0; i < res.data.length; i++) {
 				if (res.data[i].finished) {
-					setCompletedTodos(
-						completedTodos.concat([
-							{
-								id: res.data[i].id,
-								name: res.data[i].name,
-							},
-						])
-					)
+					tmpCompletedTodos = tmpCompletedTodos.concat([
+						{
+							id: res.data[i].id,
+							name: res.data[i].name,
+						},
+					])
 				} else {
-					setTodos(
-						todos.concat([
-							{
-								id: res.data[i].id,
-								name: res.data[i].name,
-							},
-						])
-					)
+					tmpTodos = tmpTodos.concat([
+						{
+							id: res.data[i].id,
+							name: res.data[i].name,
+						},
+					])
 				}
+				setCompletedTodos(tmpCompletedTodos)
+				setTodos(tmpTodos)
 			}
 		})
 	}
@@ -95,6 +95,7 @@ function ToDoList() {
 					))}
 				</ul>
 			) : null}
+			<button onClick={() => console.log(todos)}>ボタン</button>
 		</div>
 	)
 }
