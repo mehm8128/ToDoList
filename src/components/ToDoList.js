@@ -4,7 +4,7 @@ import "./ToDoList.css"
 
 function ToDoList() {
 	const [completedTodos, setCompletedTodos] = useState([])
-	const [todos, setTodos] = useState(["aaa"])
+	const [todos, setTodos] = useState([])
 	const [todo, setTodo] = useState("")
 
 	function handlePush() {
@@ -26,7 +26,7 @@ function ToDoList() {
 	}
 	function handleDelete(index) {
 		axios
-			.delete(`http://localhost:8000/api/tasks/` + todos[index].id)
+			.delete(`http://localhost:8000/api/tasks/` + completedTodos[index].id)
 			.then(() => {
 				handleGetTodos()
 			})
@@ -51,9 +51,9 @@ function ToDoList() {
 						},
 					])
 				}
-				setCompletedTodos(tmpCompletedTodos)
-				setTodos(tmpTodos)
 			}
+			setCompletedTodos(tmpCompletedTodos)
+			setTodos(tmpTodos)
 		})
 	}
 	useEffect(() => {
@@ -69,33 +69,28 @@ function ToDoList() {
 			</button>
 			<h2>タスク一覧</h2>
 			<h3>完</h3>
-			{completedTodos.length ? (
-				<ul className="ul">
-					{completedTodos.map((completedTodo, index) => (
-						<li key={index} className="li">
-							{completedTodo.name}
-							<button onClick={() => handleDelete(index)} className="button">
-								タスクを消す
-							</button>
-						</li>
-					))}
-				</ul>
-			) : null}
+			<ul className="ul">
+				{completedTodos.map((completedTodo, index) => (
+					<li key={completedTodo.id} className="li">
+						{completedTodo.name}
+						<button onClick={() => handleDelete(index)} className="button">
+							タスクを消す
+						</button>
+					</li>
+				))}
+			</ul>
 
 			<h3>未完</h3>
-			{todos.length ? (
-				<ul className="ul">
-					{todos.map((todo, index) => (
-						<li key={index} className="li">
-							{todo.name}
-							<button onClick={() => handleComplete(index)} className="button">
-								完了する
-							</button>
-						</li>
-					))}
-				</ul>
-			) : null}
-			<button onClick={() => console.log(todos)}>ボタン</button>
+			<ul className="ul">
+				{todos.map((todo, index) => (
+					<li key={todo.id} className="li">
+						{todo.name}
+						<button onClick={() => handleComplete(index)} className="button">
+							完了する
+						</button>
+					</li>
+				))}
+			</ul>
 		</div>
 	)
 }
