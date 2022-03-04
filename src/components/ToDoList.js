@@ -26,9 +26,9 @@ function ToDoList() {
 			<h2>タスク一覧</h2>
 			<h3>完</h3>
 			<ul className="ul">
-				{completedTodos.map((todo, index) => (
+				{completedTodos.map((completedTodo, index) => (
 					<li key={index} className="li">
-						{todo}
+						{completedTodo}
 					</li>
 				))}
 			</ul>
